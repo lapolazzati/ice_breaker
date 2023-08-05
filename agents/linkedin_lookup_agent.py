@@ -47,6 +47,7 @@ def get_profile_url(name: str):
     res = search.run(f"{name}")
     return res
 
+
 def lookup(name: str) -> str:
     llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
     template = """given the full name {name} I want you to get it me a link to their Linkedin profile page.
@@ -66,9 +67,7 @@ def lookup(name: str) -> str:
         agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
         verbose=True,
     )
-    prompt_template = PromptTemplate(
-        template=template, input_variables=["name"]
-    )
+    prompt_template = PromptTemplate(template=template, input_variables=["name"])
 
     linked_profile_url = agent.run(prompt_template.format_prompt(name=name))
     return linked_profile_url
